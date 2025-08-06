@@ -1,0 +1,50 @@
+version: "2"
+services:
+  elasticsearch:
+    restart: always
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.2
+    container_name: elasticsearch
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
+      - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+    ports:
+      - "9200:9200"
+
+  logstash:
+    restart: always
+    image: docker.elastic.co/logstash/logstash:6.6.2
+    container_name: logstash
+    volumes:
+      - ./logstash/logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash/logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+    ports:
+      - "6000:6000"
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch:elasticsearch
+
+  kibana:
+    restart: always
+    image: docker.elastic.co/kibana/kibana:6.6.2
+    container_name: kibana
+    volumes:
+      - ./kibana/kibana.yml:/usr/share/kibana/config/kibana.yml
+    ports:
+      - "5601:5601"
+    depends_on:
+      - elasticsearch
+    links:
+      - elasticsearch:elasticsearch
+
+  logspout:
+    restart: always
+    image: bingozb/logspout
+    container_name: logspout
+    depends_on:
+      - logstash
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      ROUTE_URIS: logstash://logstash:6000
+      LOGSTASH_TAGS: docker-elk
