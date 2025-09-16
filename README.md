@@ -17,7 +17,6 @@ open: http://127.0.0.1:5601
 
 ```bash
 chmod +x bash/check_es_indices.sh
-
 ./bash/check_es_indices.sh 127.0.0.1 9200
 ```
 
@@ -27,4 +26,10 @@ chmod +x bash/check_es_indices.sh
 curl -XPUT "127.0.0.1:9200/_all/_settings" \
   -H 'Content-Type: application/json' \
   -d '{"number_of_replicas": 0}'
+```
+
+### Keep logs 30 days
+```bash
+chmod +x bash/setup_ilm.sh
+./bash/setup_ilm.sh "http://127.0.0.1:9200" 30
 ```
