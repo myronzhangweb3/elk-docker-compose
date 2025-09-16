@@ -16,7 +16,6 @@ open: http://127.0.0.1:5601
 ### Check indices
 
 ```bash
-chmod +x bash/check_es_indices.sh
 ./bash/check_es_indices.sh 127.0.0.1 9200
 ```
 
@@ -30,6 +29,5 @@ curl -XPUT "127.0.0.1:9200/_all/_settings" \
 
 ### Keep logs 30 days
 ```bash
-chmod +x bash/setup_ilm.sh
 ./bash/setup_ilm.sh "http://127.0.0.1:9200" 30
 ```
