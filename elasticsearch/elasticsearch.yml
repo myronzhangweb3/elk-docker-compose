@@ -15,3 +15,5 @@ http.cors.enabled: true
 http.cors.allow-origin: "*"
 
 bootstrap.system_call_filter: false
+
+bootstrap.memory_lock: true

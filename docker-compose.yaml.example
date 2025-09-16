@@ -4,11 +4,17 @@ services:
     restart: always
     image: docker.elastic.co/elasticsearch/elasticsearch:6.6.2
     container_name: elasticsearch
+    environment:
+    - ES_JAVA_OPTS=-Xms8g -Xmx8g
     volumes:
       - ./elasticsearch/data:/usr/share/elasticsearch/data
       - ./elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
     ports:
       - "9200:9200"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
   logstash:
     restart: always
@@ -21,6 +27,8 @@ services:
       - "6000:6000"
     depends_on:
       - elasticsearch
+    environment:
+      - LS_JAVA_OPTS=-Xms4g -Xmx4g
     links:
       - elasticsearch:elasticsearch
 
