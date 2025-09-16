@@ -53,6 +53,17 @@ curl -XPUT "$ES_HOST/_template/$INDEX_TEMPLATE" \
   }"
 echo -e "\n✅ Index template created/updated successfully\n"
 
+echo ">>> Updating existing indices (logstash-*) to use policy: ${POLICY_NAME}"
+curl -XPUT "$ES_HOST/logstash-*/_settings" \
+  -H "Content-Type: application/json" -d "{
+    \"index\": {
+      \"lifecycle\": {
+        \"name\": \"$POLICY_NAME\"
+      }
+    }
+  }"
+echo -e "\n✅ Existing indices updated to use ILM policy\n"
+
 echo ">>> Checking ILM policy:"
 curl -XGET "$ES_HOST/_ilm/policy/$POLICY_NAME?pretty"
 
