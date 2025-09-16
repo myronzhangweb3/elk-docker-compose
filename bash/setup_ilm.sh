@@ -43,7 +43,7 @@ echo -e "\n✅ Policy created successfully\n"
 echo ">>> Creating/Updating index template: ${INDEX_TEMPLATE}"
 curl -XPUT "$ES_HOST/_template/$INDEX_TEMPLATE" \
   -H "Content-Type: application/json" -d "{
-    \"index_patterns\": [\"logstash-*\"] ,
+    \"index_patterns\": [\"logstash\"] ,
     \"settings\": {
       \"number_of_shards\": 1,
       \"number_of_replicas\": 0,
