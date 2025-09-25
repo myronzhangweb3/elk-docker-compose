@@ -1,7 +1,7 @@
 # elk-docker-compose
 
 ```bash
-cp docker-compose.yml.example docker-compose.yml
+cp docker-compose.yaml.example docker-compose.yaml
 
 sudo mkdir -p ./elasticsearch/data && sudo chmod 777 ./elasticsearch/data
 
